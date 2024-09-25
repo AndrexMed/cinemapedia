@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,6 @@ class MoviesSlideshow extends StatelessWidget {
             itemCount: movies.length,
             itemBuilder: (context, index) {
               final movie = movies[index];
-              // return ClipRRect(
-              //   borderRadius: BorderRadius.circular(20),
-              //   child: FadeInImage(
-              //     placeholder: const NetworkImage('https://via.placeholder.com/300x400'),
-              //     image: NetworkImage(movie.posterPath),
-              //     fit: BoxFit.cover,
-              //   ),
-              // );
               return _Slide(
                 movie: movie,
               );
@@ -39,6 +32,39 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final decoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+              color: Colors.black45, blurRadius: 10, offset: Offset(0, 10))
+        ],
+        image: DecorationImage(
+            fit: BoxFit.cover, image: NetworkImage(movie.posterPath)));
+
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: DecoratedBox(
+          decoration: decoration,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                movie.backdropPath,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    // return child;
+                    return FadeIn(child: child);
+                  }
+                  return const DecoratedBox(
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                },
+              )),
+        ));
   }
 }
