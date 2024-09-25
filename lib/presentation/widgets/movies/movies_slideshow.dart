@@ -20,7 +20,7 @@ class MoviesSlideshow extends StatelessWidget {
             pagination: SwiperPagination(
                 margin: const EdgeInsets.only(top: 0),
                 builder: DotSwiperPaginationBuilder(
-                    activeColor: colors.primary, color: colors.primary)),
+                    activeColor: colors.primary, color: colors.secondary)),
             itemCount: movies.length,
             itemBuilder: (context, index) {
               final movie = movies[index];
