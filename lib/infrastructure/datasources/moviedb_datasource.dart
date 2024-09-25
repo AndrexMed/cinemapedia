@@ -1,6 +1,8 @@
 import 'package:cinemapedia/configs/constants/environment.dart';
 import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinemapedia/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
@@ -18,8 +20,13 @@ class MoviedbDatasource extends MoviesDatasource {
     final response = await dio.get('movie/now_playing', queryParameters: {
       'page': page,
     });
-    response.data;
-    final List<Movie> movies = [];
+
+    final movieDBResponse = MovieDbResponse.fromJson(response.data);
+
+    final List<Movie> movies = movieDBResponse.results
+        .where((movieDb) => movieDb.posterPath != 'NO_POSTER')
+        .map((moviedb) => MovieMapper.movieDBToEntity(moviedb))
+        .toList();
     return movies;
   }
 }

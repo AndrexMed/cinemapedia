@@ -8,7 +8,7 @@ class MovieMapper {
         title: movie.title,
         posterPath: movie.posterPath != ''
             ? '${Environment.imageUrlPath}${movie.posterPath}'
-            : 'https://i.stack.imgur.com/GNhxO.png',
+            : 'NO_POSTER',
         overview: movie.overview,
         releaseDate: movie.releaseDate,
         voteAverage: movie.voteAverage,
