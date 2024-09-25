@@ -18,6 +18,7 @@ class MoviedbDatasource extends MoviesDatasource {
     final response = await dio.get('movie/now_playing', queryParameters: {
       'page': page,
     });
+    response.data;
     final List<Movie> movies = [];
     return movies;
   }
