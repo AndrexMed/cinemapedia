@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: _HomeView(),
+      bottomNavigationBar: CustomNavBar(),
     );
   }
 }
@@ -48,10 +49,15 @@ class _HomeViewState extends ConsumerState<_HomeView> {
         //   ),
         // )
 
-       //Fuera una forma de mostrar el loading mientras se cargan los datos. 
+        //Fuera una forma de mostrar el loading mientras se cargan los datos.
         // if (nowPlayingMovies.isEmpty) const CircularProgressIndicator(),
 
         MoviesSlideshow(movies: nowPlayingMovies),
+
+        MovieHorizontalListview(
+            movies: nowPlayingMovies,
+            title: 'En Cines',
+            subtitle: '20'),
       ],
     );
   }
