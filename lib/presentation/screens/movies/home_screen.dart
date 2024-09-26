@@ -37,22 +37,48 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideShowProvider);
 
-    return Column(
-      children: [
-        const CustomAppbar(),
+    return CustomScrollView(slivers: [
+      const SliverAppBar(
+        floating: true,
+        centerTitle: false,
+        flexibleSpace: FlexibleSpaceBar(
+          title: SizedBox(
+            width: double.infinity,
+            child: CustomAppbar(),
+          ),
+        ),
+      ),
+      SliverList(
+          delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return Column(
+            children: [
+              //const CustomAppbar(),
 
-        //Fuera una forma de mostrar el loading mientras se cargan los datos.
-        // if (nowPlayingMovies.isEmpty) const CircularProgressIndicator(),
+              MoviesSlideshow(movies: slideShowMovies),
 
-        MoviesSlideshow(movies: slideShowMovies),
+              MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'En Cines',
+                  subtitle: '20',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage()),
 
-        MovieHorizontalListview(
-            movies: nowPlayingMovies,
-            title: 'En Cines',
-            subtitle: '20',
-            loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
-      ],
-    );
+              MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Populares',
+                  subtitle: '20',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage()),
+
+              const SizedBox(height: 50),
+            ],
+          );
+        },
+        childCount: 1,
+      ))
+    ]);
   }
 }
