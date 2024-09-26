@@ -34,30 +34,24 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
     // final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    final nowPlayingMovies = ref.watch(moviesSlideShowProvider);
+    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final slideShowMovies = ref.watch(moviesSlideShowProvider);
 
     return Column(
       children: [
         const CustomAppbar(),
-        // Expanded(
-        //   child: ListView.builder(
-        //     itemCount: nowPlayingMovies.length,
-        //     itemBuilder: (context, index) {
-        //       final movie = nowPlayingMovies[index];
-        //       return Text(movie.title);
-        //     },
-        //   ),
-        // )
 
         //Fuera una forma de mostrar el loading mientras se cargan los datos.
         // if (nowPlayingMovies.isEmpty) const CircularProgressIndicator(),
 
-        MoviesSlideshow(movies: nowPlayingMovies),
+        MoviesSlideshow(movies: slideShowMovies),
 
         MovieHorizontalListview(
             movies: nowPlayingMovies,
             title: 'En Cines',
-            subtitle: '20'),
+            subtitle: '20',
+            loadNextPage: () =>
+                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
       ],
     );
   }
