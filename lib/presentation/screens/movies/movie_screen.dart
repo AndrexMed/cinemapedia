@@ -40,7 +40,11 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       slivers: [
         _MovieSliverAppBar(movie: movie),
         SliverList(
-            delegate: SliverChildListDelegate([_MovieOverview(movie: movie)]))
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => _MovieOverview(movie: movie),
+            childCount: 1,
+          ),
+        )
       ],
     ));
   }
@@ -83,7 +87,6 @@ class _MovieSliverAppBar extends StatelessWidget {
                     },
                   ),
                 ),
-
                 const SizedBox.expand(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -98,28 +101,8 @@ class _MovieSliverAppBar extends StatelessWidget {
                     ),
                   ),
                 )
-                //const _BackdropAndTitle()
               ],
             )));
-  }
-}
-
-class _BackdropAndTitle extends StatelessWidget {
-  const _BackdropAndTitle({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Positioned(
-      top: 0,
-      child: Container(
-        width: size.width,
-        height: size.height * 0.4,
-        color: Colors.red,
-      ),
-    );
   }
 }
 
@@ -128,9 +111,78 @@ class _MovieOverview extends StatelessWidget {
   const _MovieOverview({required this.movie});
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final textTheme = Theme.of(context).textTheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Text(movie.overview),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    movie.posterPath,
+                    width: size.width * 0.3,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress != null) {
+                        return const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        );
+                      }
+                      return child;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+
+                //Descripcion
+                SizedBox(
+                  width: (size.width - 40) * 0.5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(movie.title, style: textTheme.titleLarge),
+                      const SizedBox(height: 5),
+                      Text(
+                        movie.overview,
+                        style: textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+
+          //Generos de la pelicula
+          Padding(
+              padding: const EdgeInsets.all(8),
+              child: Wrap(
+                children: [
+                  ...movie.genreIds
+                      .map((genre) => Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            child: Chip(
+                              label: Text(genre),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                            ),
+                          ))
+                      .toList(),
+                ],
+              )),
+
+          const SizedBox(
+            height: 100,
+          )
+        ],
+      ),
     );
   }
 }
