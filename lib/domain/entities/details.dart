@@ -145,7 +145,7 @@ class Genre {
 
 class ProductionCompany {
   int id;
-  String logoPath;
+  String? logoPath;
   String name;
   String originCountry;
 
