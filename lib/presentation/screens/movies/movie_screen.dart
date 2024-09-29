@@ -120,7 +120,7 @@ class _MovieOverview extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -174,7 +174,7 @@ class _MovieOverview extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20)),
                             ),
                           ))
-                      .toList(),
+                      ,
                 ],
               )),
 
