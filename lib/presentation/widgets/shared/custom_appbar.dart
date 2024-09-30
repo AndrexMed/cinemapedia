@@ -1,3 +1,4 @@
+import 'package:cinemapedia/presentation/delegates/search_movie%20_delegate.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget {
@@ -18,7 +19,14 @@ class CustomAppbar extends StatelessWidget {
                   Icon(Icons.movie_creation, size: 30, color: colors.primary),
                   Text('CinemaPedia', style: titleStyle),
                   const Spacer(),
-                  Icon(Icons.search, size: 30, color: colors.primary),
+                  IconButton(
+                    onPressed: () {
+                      showSearch(
+                          context: context, delegate: SearchMovieDelegate());
+                    },
+                    icon: const Icon(Icons.search),
+                    color: colors.primary,
+                  ),
                 ],
               ),
             )));
