@@ -6,7 +6,7 @@ class ActorMapper {
   static Actor actorDetailsToEntity(Cast actor) => Actor(
         id: actor.id,
         name: actor.name,
-        profilePath: actor.profilePath != ''
+        profilePath: actor.profilePath != null
             ? '${Environment.imageUrlPath}${actor.profilePath}'
             : 'https://i.stack.imgur.com/GNhxO.png',
         character: actor.character,

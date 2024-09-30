@@ -178,10 +178,64 @@ class _MovieOverview extends StatelessWidget {
                 ],
               )),
 
+          _ActorsByMovieView(movieId: movie.id.toString()),
+
           const SizedBox(
             height: 100,
           )
         ],
+      ),
+    );
+  }
+}
+
+class _ActorsByMovieView extends ConsumerWidget {
+  final String movieId;
+
+  const _ActorsByMovieView({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final actorsByMovie = ref.watch(actorsByMovieProvider);
+
+    if (actorsByMovie[movieId] == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    final actors = actorsByMovie[movieId]!;
+
+    //create a widget custom for actors in a slide horizontal
+
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: actors.length,
+        itemBuilder: (context, index) {
+          final actor = actors[index];
+          return Container(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: FadeInImage(
+                      placeholder: const NetworkImage(
+                          'https://via.placeholder.com/300x400'),
+                      image: NetworkImage(actor.profilePath!),
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    )),
+                const SizedBox(height: 10),
+                Text(
+                  actor.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ]));
+        },
       ),
     );
   }
