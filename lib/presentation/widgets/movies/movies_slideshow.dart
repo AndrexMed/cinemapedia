@@ -44,7 +44,7 @@ class _Slide extends StatelessWidget {
               color: Colors.black45, blurRadius: 10, offset: Offset(0, 10))
         ],
         image: DecorationImage(
-            fit: BoxFit.cover, image: NetworkImage(movie.posterPath)));
+            fit: BoxFit.cover, image: NetworkImage(movie.posterPath!)));
 
     return Padding(
         padding: const EdgeInsets.only(bottom: 30),
@@ -53,7 +53,7 @@ class _Slide extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                movie.backdropPath,
+                movie.backdropPath!,
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,

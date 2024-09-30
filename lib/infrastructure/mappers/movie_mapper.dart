@@ -11,7 +11,8 @@ class MovieMapper {
             ? '${Environment.imageUrlPath}${movie.posterPath}'
             : 'NO_POSTER',
         overview: movie.overview,
-        releaseDate: movie.releaseDate,
+        releaseDate:
+            movie.releaseDate != null ? movie.releaseDate! : DateTime.now(),
         voteAverage: movie.voteAverage,
         voteCount: movie.voteCount,
         adult: movie.adult,
@@ -28,15 +29,15 @@ class MovieMapper {
   static Movie movieDetailsToEntity(MovieDetails movie) => Movie(
         id: movie.id,
         title: movie.title,
-        posterPath: movie.posterPath != ''
+        posterPath: movie.posterPath != null
             ? '${Environment.imageUrlPath}${movie.posterPath}'
-            : 'NO_POSTER',
+            : 'https://i.stack.imgur.com/GNhxO.png',
         overview: movie.overview,
         releaseDate: movie.releaseDate,
         voteAverage: movie.voteAverage,
         voteCount: movie.voteCount,
         adult: movie.adult,
-        backdropPath: movie.backdropPath != ''
+        backdropPath: movie.backdropPath != null
             ? '${Environment.imageUrlPath}${movie.backdropPath}'
             : 'https://i.stack.imgur.com/GNhxO.png',
         genreIds: movie.genres.map((e) => e.name).toList(),

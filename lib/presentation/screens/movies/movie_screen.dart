@@ -78,7 +78,7 @@ class _MovieSliverAppBar extends StatelessWidget {
               children: [
                 SizedBox.expand(
                   child: Image.network(
-                    movie.posterPath,
+                    movie.posterPath!,
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress != null) return const SizedBox();
@@ -127,7 +127,7 @@ class _MovieOverview extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
-                    movie.posterPath,
+                    movie.posterPath!,
                     width: size.width * 0.3,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress != null) {
