@@ -63,17 +63,36 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
 class _MovieItem extends StatelessWidget {
   final Movie movie;
-  const _MovieItem({super.key, required this.movie});
+  const _MovieItem({required this.movie});
 
   @override
   Widget build(BuildContext context) {
-    return FadeInUp(
-      child: ListTile(
-        leading: Text(movie.id.toString()),
-        title: Text(movie.title),
-        subtitle: Text(movie.originalTitle),
-        onTap: () => Navigator.pushNamed(context, 'movie', arguments: movie),
-      ),
+    final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Row(children: [
+        SizedBox(
+          width: size.width * 0.2,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              movie.posterPath!,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress != null) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return FadeIn(child: child);
+              },
+            ),
+          ),
+        )
+      ]),
     );
   }
 }

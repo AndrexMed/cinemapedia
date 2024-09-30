@@ -7,18 +7,18 @@ class MovieMapper {
   static Movie movieDBToEntity(MovieMovieDb movie) => Movie(
         id: movie.id,
         title: movie.title,
-        posterPath: movie.posterPath != ''
-            ? '${Environment.imageUrlPath}${movie.posterPath}'
-            : 'NO_POSTER',
+        posterPath: (movie.posterPath != '')
+            ? 'https://image.tmdb.org/t/p/w500${movie.posterPath}'
+            : 'https://www.movienewz.com/img/films/poster-holder.jpg',
         overview: movie.overview,
         releaseDate:
             movie.releaseDate != null ? movie.releaseDate! : DateTime.now(),
         voteAverage: movie.voteAverage,
         voteCount: movie.voteCount,
         adult: movie.adult,
-        backdropPath: movie.backdropPath != ''
-            ? '${Environment.imageUrlPath}${movie.backdropPath}'
-            : 'https://i.stack.imgur.com/GNhxO.png',
+        backdropPath: (movie.backdropPath != '')
+            ? 'https://image.tmdb.org/t/p/w500${movie.backdropPath}'
+            : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
         genreIds: movie.genreIds.map((int e) => e.toString()).toList(),
         originalLanguage: movie.originalLanguage,
         originalTitle: movie.originalTitle,
@@ -29,17 +29,17 @@ class MovieMapper {
   static Movie movieDetailsToEntity(MovieDetails movie) => Movie(
         id: movie.id,
         title: movie.title,
-        posterPath: movie.posterPath != null
-            ? '${Environment.imageUrlPath}${movie.posterPath}'
-            : 'https://i.stack.imgur.com/GNhxO.png',
+        posterPath: (movie.posterPath != '')
+            ? 'https://image.tmdb.org/t/p/w500${movie.posterPath}'
+            : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
         overview: movie.overview,
         releaseDate: movie.releaseDate,
         voteAverage: movie.voteAverage,
         voteCount: movie.voteCount,
         adult: movie.adult,
-        backdropPath: movie.backdropPath != null
-            ? '${Environment.imageUrlPath}${movie.backdropPath}'
-            : 'https://i.stack.imgur.com/GNhxO.png',
+        backdropPath: (movie.backdropPath != '')
+            ? 'https://image.tmdb.org/t/p/w500${movie.backdropPath}'
+            : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
         genreIds: movie.genres.map((e) => e.name).toList(),
         originalLanguage: movie.originalLanguage,
         originalTitle: movie.originalTitle,
