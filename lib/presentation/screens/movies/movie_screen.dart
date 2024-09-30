@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/actors/actors_by_movie_provider.dart';
 import 'package:flutter/material.dart';
@@ -80,12 +81,9 @@ class _MovieSliverAppBar extends StatelessWidget {
                     movie.posterPath,
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress != null) {
-                        return const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        );
-                      }
-                      return child;
+                      if (loadingProgress != null) return const SizedBox();
+
+                      return FadeIn(child: child);
                     },
                   ),
                 ),
