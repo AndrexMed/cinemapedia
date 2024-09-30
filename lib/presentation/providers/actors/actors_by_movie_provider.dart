@@ -7,19 +7,20 @@ final actorsByMovieProvider =
         (ref) {
   final actorsRepository = ref.watch(actorsRepositoryProvider);
 
-  return ActorsByMovieNotifier(getActors: actorsRepository.getActorsByMovie);
+  return ActorsByMovieNotifier(
+      getActorsByMovie: actorsRepository.getActorsByMovie);
 });
 
 typedef GetActorsByMovieCallback = Future<List<Actor>> Function(String movieId);
 
 class ActorsByMovieNotifier extends StateNotifier<Map<String, List<Actor>>> {
-  final GetActorsByMovieCallback getActors;
-  ActorsByMovieNotifier({required this.getActors}) : super({});
+  final GetActorsByMovieCallback getActorsByMovie;
+  ActorsByMovieNotifier({required this.getActorsByMovie}) : super({});
 
   Future<void> loadActors(String movieId) async {
     if (state.containsKey(movieId)) return;
 
-    final List<Actor> actors = await getActors(movieId);
+    final List<Actor> actors = await getActorsByMovie(movieId);
     state = {...state, movieId: actors};
   }
 }

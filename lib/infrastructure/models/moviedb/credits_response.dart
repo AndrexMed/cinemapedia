@@ -31,13 +31,13 @@ class Cast {
   String name;
   String originalName;
   double popularity;
-  String profilePath;
-  int castId;
-  String character;
+  String? profilePath;
+  int? castId;
+  String? character;
   String creditId;
-  int order;
-  String department;
-  String job;
+  int? order;
+  String? department;
+  String? job;
 
   Cast({
     required this.adult,
@@ -65,11 +65,11 @@ class Cast {
         originalName: json["original_name"],
         popularity: json["popularity"]?.toDouble(),
         profilePath: json["profile_path"],
-        castId: json["cast_id"],
+        castId: json["cast_id"]?.toInt(),
         character: json["character"],
         creditId: json["credit_id"],
         order: json["order"],
-        department: json["department"]!,
+        department: json["department"],
         job: json["job"],
       );
 
