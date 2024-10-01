@@ -56,7 +56,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
               itemCount: movies.length,
               itemBuilder: (context, index) {
                 final movie = movies[index];
-                return _MovieItem(movie: movie);
+                return _MovieItem(movie: movie, onMovieSelected: close);
               });
         });
   }
@@ -64,7 +64,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
 class _MovieItem extends StatelessWidget {
   final Movie movie;
-  const _MovieItem({required this.movie});
+  final Function onMovieSelected;
+  const _MovieItem({required this.movie, required this.onMovieSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -72,67 +73,70 @@ class _MovieItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(children: [
-        //Image
-        SizedBox(
-          width: size.width * 0.2,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              movie.posterPath!,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress != null) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return FadeIn(child: child);
-              },
+    return GestureDetector(
+      onTap: () => onMovieSelected(context, movie),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Row(children: [
+          //Image
+          SizedBox(
+            width: size.width * 0.2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                movie.posterPath!,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress != null) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return FadeIn(child: child);
+                },
+              ),
             ),
           ),
-        ),
 
-        const SizedBox(width: 10),
-        //Descripcion
+          const SizedBox(width: 10),
+          //Descripcion
 
-        SizedBox(
-          width: size.width * 0.6,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                movie.title,
-                style: textTheme.titleMedium,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                movie.overview,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
+          SizedBox(
+            width: size.width * 0.6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  movie.title,
+                  style: textTheme.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  movie.overview,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
 
-              //Rating
-              Row(
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: colors.primary,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    HumanFormats.formatNumber(movie.voteAverage, 1),
-                    style: textTheme.bodyMedium,
-                  ),
-                ],
-              )
-            ],
-          ),
-        )
-      ]),
+                //Rating
+                Row(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: colors.primary,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      HumanFormats.formatNumber(movie.voteAverage, 1),
+                      style: textTheme.bodyMedium,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
