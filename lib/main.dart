@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:cinemapedia/configs/router/app_router.dart';
+// import 'package:cinemapedia/configs/router/app_router.dart';
+import 'package:cinemapedia/configs/router/state_full_navigation.dart';
 import 'package:cinemapedia/configs/theme/app_theme.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
