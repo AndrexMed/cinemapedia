@@ -74,6 +74,7 @@ class _MovieItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(children: [
+        //Image
         SizedBox(
           width: size.width * 0.2,
           child: ClipRRect(
@@ -90,6 +91,29 @@ class _MovieItem extends StatelessWidget {
                 return FadeIn(child: child);
               },
             ),
+          ),
+        ),
+
+        const SizedBox(width: 10),
+        //Descripcion
+
+        SizedBox(
+          width: size.width * 0.6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                movie.title,
+                style: textTheme.titleLarge,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                movie.overview,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         )
       ]),
