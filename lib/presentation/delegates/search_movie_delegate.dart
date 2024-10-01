@@ -9,23 +9,25 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMoviesCallback;
+  List<Movie> initialMovies;
   StreamController<List<Movie>> debouncer = StreamController.broadcast();
   Timer? _debounceTimer;
-  SearchMovieDelegate({required this.searchMoviesCallback});
+  SearchMovieDelegate(
+      {required this.searchMoviesCallback, required this.initialMovies});
 
   void clearStreams() {
     debouncer.close();
-    _debounceTimer?.cancel();
   }
 
   void _onQueryChanged(String query) {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
-      if (query.isEmpty) {
-        debouncer.add([]);
-        return;
-      }
+      // if (query.isEmpty) {
+      //   debouncer.add([]);
+      //   return;
+      // }
       final movies = await searchMoviesCallback(query);
+      initialMovies = movies;
       debouncer.add(movies);
     });
   }
@@ -62,16 +64,16 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   Widget buildSuggestions(BuildContext context) {
     _onQueryChanged(query);
     return StreamBuilder<List<Movie>>(
-        initialData: const [],
+        initialData: initialMovies,
         //future: searchMoviesCallback(query),
         stream: debouncer.stream,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator()); // Indicador de carga
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Ocurrió un error'));
-          }
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return const Center(
+          //       child: CircularProgressIndicator()); // Indicador de carga
+          // } else if (snapshot.hasError) {
+          //   return const Center(child: Text('Ocurrió un error'));
+          // }
           final movies = snapshot.data ?? [];
 
           if (movies.isEmpty) {

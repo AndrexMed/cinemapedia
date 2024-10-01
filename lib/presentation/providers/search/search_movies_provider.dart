@@ -6,7 +6,7 @@ final searchQueryProvider = StateProvider<String>((ref) => '');
 
 final searchedMoviesProvider =
     StateNotifierProvider<SearchMoviesNotifier, List<Movie>>((ref) {
-  final movieRepository = ref.watch(movieRepositoryProvider);
+  final movieRepository = ref.read(movieRepositoryProvider);
   return SearchMoviesNotifier(
     searchMoviesCallback: movieRepository.searchMovies,
     ref: ref,
