@@ -41,7 +41,7 @@ class MovieMovieDb {
         overview: json["overview"] ?? '',
         popularity: json["popularity"]?.toDouble(),
         posterPath: json["poster_path"] ?? '',
-        releaseDate: json["release_date"] != null
+        releaseDate: (json["release_date"] != null && json["release_date"] != "") 
             ? DateTime.parse(json["release_date"])
             : null,
         title: json["title"],
