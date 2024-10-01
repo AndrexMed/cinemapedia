@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/configs/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,7 @@ class _MovieItem extends StatelessWidget {
             children: [
               Text(
                 movie.title,
-                style: textTheme.titleLarge,
+                style: textTheme.titleMedium,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -113,6 +114,21 @@ class _MovieItem extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
+
+              //Rating
+              Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: colors.primary,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    HumanFormats.formatNumber(movie.voteAverage, 1),
+                    style: textTheme.bodyMedium,
+                  ),
+                ],
+              )
             ],
           ),
         )
