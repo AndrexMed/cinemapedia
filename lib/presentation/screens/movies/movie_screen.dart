@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/presentation/providers/actors/actors_by_movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -53,19 +52,23 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
-class _MovieSliverAppBar extends StatelessWidget {
+class _MovieSliverAppBar extends ConsumerWidget {
   final Movie movie;
   const _MovieSliverAppBar({required this.movie});
   @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    //final TextTheme textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
         backgroundColor: Colors.black,
         expandedHeight: size.height * 0.7,
         foregroundColor: Colors.white,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+          IconButton(
+              onPressed: () {
+                ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+              },
+              icon: const Icon(Icons.favorite_border)),
           // IconButton(
           //   onPressed: () {},
           //   icon: const Icon(Icons.favorite_rounded),
