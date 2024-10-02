@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../presentation/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/', routes: [
+final appRouter = GoRouter(initialLocation: '/home/0', routes: [
   GoRoute(
       path: '/home/:page',
       name: HomeScreen.name,
@@ -20,4 +20,8 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
           },
         ),
       ]),
+  GoRoute(
+    path: '/',
+    redirect: (_, __) => '/home/0',
+  )
 ]);

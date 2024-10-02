@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   final viewRoutes = const <Widget>[
     HomeView(),
-    SizedBox(), // CategoriasView
+    CategoriesView(), // CategoriasView
     FavoritesView(),
   ];
 
@@ -21,7 +21,9 @@ class HomeScreen extends StatelessWidget {
         index: pageIndex,
         children: viewRoutes,
       ),
-      bottomNavigationBar: CustomNavBar(),
+      bottomNavigationBar: CustomNavBar(
+        currentIndex: pageIndex,
+      ),
     );
   }
 }
