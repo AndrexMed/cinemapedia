@@ -26,20 +26,40 @@ class IsarDatasource extends LocalStorageDatasource {
   }
 
   @override
-  Future<bool> isMovieFavorite(int movieId) {
-    // TODO: implement isMovieFavorite
-    throw UnimplementedError();
+  Future<bool> isMovieFavorite(int movieId) async {
+    final isar = await database;
+
+    final Movie? isFavoriteMovie =
+        await isar.movies.filter().idEqualTo(movieId).findFirst();
+
+    return isFavoriteMovie != null;
   }
 
   @override
-  Future<List<Movie>> loadFavoritesMovies({int limit = 10, int offset = 0}) {
-    // TODO: implement loadFavoritesMovies
-    throw UnimplementedError();
+  Future<List<Movie>> loadFavoritesMovies(
+      {int limit = 10, int offset = 0}) async {
+    //create method for loadFavoritesMovies
+    final isar = await database;
+
+    return isar.movies.where().offset(offset).limit(limit).findAll();
   }
 
   @override
-  Future<void> toggleFavorite(Movie movie) {
-    // TODO: implement toggleFavorite
-    throw UnimplementedError();
+  Future<void> toggleFavorite(Movie movie) async {
+    final isar = await database;
+
+    final Movie? favoriteMovie =
+        await isar.movies.filter().idEqualTo(movie.id).findFirst();
+
+    if (favoriteMovie != null) {
+      isar.writeTxnSync(
+        () => isar.movies.deleteSync(favoriteMovie.id),
+      );
+    }
+
+    //Insertar o actualizar
+    isar.writeTxnSync(
+      () => isar.movies.putSync(movie),
+    );
   }
 }
