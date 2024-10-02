@@ -64,16 +64,24 @@ class _MovieSliverAppBar extends StatelessWidget {
         backgroundColor: Colors.black,
         expandedHeight: size.height * 0.7,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: const Icon(Icons.favorite_rounded),
+          //   color: Colors.red,
+          // ),
+        ],
         // floating: false,
         // pinned: true,
         flexibleSpace: FlexibleSpaceBar(
             titlePadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            title: Text(
-              movie.title,
-              style: textTheme.titleMedium,
-              textAlign: TextAlign.start,
-            ),
+            // title: Text(
+            //   movie.title,
+            //   style: textTheme.titleMedium,
+            //   textAlign: TextAlign.start,
+            // ),
             background: Stack(
               children: [
                 SizedBox.expand(
@@ -87,20 +95,23 @@ class _MovieSliverAppBar extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox.expand(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.black,
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                  ),
-                )
+                const _CustomGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.black54, Colors.transparent],
+                  stops: [0.2, 0.6],
+                ),
+                const _CustomGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black54],
+                  stops: [0.8, 1.0],
+                ),
+                const _CustomGradient(
+                  begin: Alignment.topLeft,
+                  colors: [Colors.black54, Colors.transparent],
+                  stops: [0.0, 0.3],
+                ),
               ],
             )));
   }
@@ -204,8 +215,6 @@ class _ActorsByMovieView extends ConsumerWidget {
 
     final actors = actorsByMovie[movieId]!;
 
-    //create a widget custom for actors in a slide horizontal
-
     return SizedBox(
       height: 300,
       child: ListView.builder(
@@ -234,6 +243,34 @@ class _ActorsByMovieView extends ConsumerWidget {
                 )
               ]));
         },
+      ),
+    );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<Color> colors;
+  final List<double> stops;
+  const _CustomGradient(
+      {this.begin = Alignment.centerLeft,
+      this.end = Alignment.centerLeft,
+      required this.colors,
+      required this.stops});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: begin,
+            end: end,
+            colors: colors,
+            stops: stops,
+          ),
+        ),
       ),
     );
   }
