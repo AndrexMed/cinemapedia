@@ -4,9 +4,12 @@ import '../../presentation/screens/screens.dart';
 
 final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
-      path: '/',
+      path: '/home/:page',
       name: HomeScreen.name,
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) {
+        final pageIndex = state.pathParameters['page'] ?? '0';
+        return HomeScreen(pageIndex: int.parse(pageIndex));
+      },
       routes: [
         GoRoute(
           path: 'movie/:movieId',
