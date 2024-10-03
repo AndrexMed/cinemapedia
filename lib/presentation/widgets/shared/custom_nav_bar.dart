@@ -27,9 +27,10 @@ class CustomNavBar extends StatelessWidget {
         //elevation: 0, para ocultar linea separadora sobre el menu.
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-          BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Categorias'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: 'Favoritos'),
+              icon: Icon(Icons.thumbs_up_down_outlined), label: 'Populares'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_outline), label: 'Favoritos'),
         ]);
   }
 }

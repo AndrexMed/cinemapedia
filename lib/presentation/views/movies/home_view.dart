@@ -10,7 +10,8 @@ class HomeView extends ConsumerStatefulWidget {
   HomeViewState createState() => HomeViewState();
 }
 
-class HomeViewState extends ConsumerState<HomeView> {
+class HomeViewState extends ConsumerState<HomeView>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -22,16 +23,16 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final initialLoading = ref.watch(initialLoadingProvider);
 
     if (initialLoading) {
       return const FullScreenLoader();
     }
 
-    // final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideShowProvider);
-    final popularMovies = ref.watch(popularMoviesProvider);
+    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    // final popularMovies = ref.watch(popularMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
     final upComingMovies = ref.watch(upComingMoviesProvider);
 
@@ -58,33 +59,33 @@ class HomeViewState extends ConsumerState<HomeView> {
               MovieHorizontalListview(
                   movies: nowPlayingMovies,
                   title: 'En Cines',
-                  subtitle: '20',
+                  subtitle: 'Lunes 20',
                   loadNextPage: () => ref
                       .read(nowPlayingMoviesProvider.notifier)
                       .loadNextPage()),
 
-              MovieHorizontalListview(
-                  movies: popularMovies,
-                  title: 'Populares',
-                  subtitle: '20',
-                  loadNextPage: () =>
-                      ref.read(popularMoviesProvider.notifier).loadNextPage()),
-
-              MovieHorizontalListview(
-                  movies: topRatedMovies,
-                  title: 'Top Rated',
-                  subtitle: '20',
-                  loadNextPage: () =>
-                      ref.read(topRatedMoviesProvider.notifier).loadNextPage()),
+              // MovieHorizontalListview(
+              //     movies: popularMovies,
+              //     title: 'Populares',
+              //     subtitle: '20',
+              //     loadNextPage: () =>
+              //         ref.read(popularMoviesProvider.notifier).loadNextPage()),
 
               MovieHorizontalListview(
                   movies: upComingMovies,
-                  title: 'Upcoming',
-                  subtitle: '20',
+                  title: 'Próximamente',
+                  subtitle: 'En este mes',
                   loadNextPage: () =>
                       ref.read(upComingMoviesProvider.notifier).loadNextPage()),
 
-              const SizedBox(height: 50),
+              MovieHorizontalListview(
+                  movies: topRatedMovies,
+                  title: 'Mejor calificadas',
+                  subtitle: 'Desde siempre',
+                  loadNextPage: () =>
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage()),
+
+              const SizedBox(height: 10),
             ],
           );
         },
@@ -92,4 +93,7 @@ class HomeViewState extends ConsumerState<HomeView> {
       ))
     ]);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

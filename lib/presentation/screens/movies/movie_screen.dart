@@ -1,9 +1,11 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/configs/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/providers.dart';
+import '../../widgets/widgets.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie_screen';
@@ -40,10 +42,10 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
         body: CustomScrollView(
       physics: const ClampingScrollPhysics(),
       slivers: [
-        _MovieSliverAppBar(movie: movie),
+        _CustomSliverAppBar(movie: movie),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => _MovieOverview(movie: movie),
+            (context, index) => _MovieDetails(movie: movie),
             childCount: 1,
           ),
         )
@@ -66,9 +68,9 @@ final isFavoriteProvider =
 //   return FavoriteNotifier(localStorageRepository, movieId);
 // });
 
-class _MovieSliverAppBar extends ConsumerWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final Movie movie;
-  const _MovieSliverAppBar({required this.movie});
+  const _CustomSliverAppBar({required this.movie});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFavoriteFuture = ref.watch(isFavoriteProvider(movie.id));
@@ -145,83 +147,102 @@ class _MovieSliverAppBar extends ConsumerWidget {
   }
 }
 
-class _MovieOverview extends StatelessWidget {
+class _MovieDetails extends StatelessWidget {
   final Movie movie;
-  const _MovieOverview({required this.movie});
+  const _MovieDetails({required this.movie});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    movie.posterPath!,
-                    width: size.width * 0.3,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress != null) {
-                        return const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        );
-                      }
-                      return child;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 10),
+    // return Container(
+    //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Padding(
+    //         padding: const EdgeInsets.all(8),
+    //         child: Row(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             ClipRRect(
+    //               borderRadius: BorderRadius.circular(20),
+    //               child: Image.network(
+    //                 movie.posterPath!,
+    //                 width: size.width * 0.3,
+    //                 loadingBuilder: (context, child, loadingProgress) {
+    //                   if (loadingProgress != null) {
+    //                     return const Center(
+    //                       child: CircularProgressIndicator(strokeWidth: 2),
+    //                     );
+    //                   }
+    //                   return child;
+    //                 },
+    //               ),
+    //             ),
+    //             const SizedBox(width: 10),
 
-                //Descripcion
-                SizedBox(
-                  width: (size.width - 40) * 0.5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(movie.title, style: textTheme.titleLarge),
-                      const SizedBox(height: 5),
-                      Text(
-                        movie.overview,
-                        style: textTheme.labelSmall,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+    //             //Descripcion
+    //             SizedBox(
+    //               width: (size.width - 40) * 0.5,
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text(movie.title, style: textTheme.titleLarge),
+    //                   const SizedBox(height: 5),
+    //                   Text(
+    //                     movie.overview,
+    //                     style: textTheme.labelSmall,
+    //                   ),
+    //                 ],
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //       ),
 
-          //Generos de la pelicula
-          Padding(
-              padding: const EdgeInsets.all(8),
-              child: Wrap(
-                children: [
-                  ...movie.genreIds.map((genre) => Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        child: Chip(
-                          label: Text(genre),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                      )),
-                ],
-              )),
+    //       //Generos de la pelicula
+    //       Padding(
+    //           padding: const EdgeInsets.all(8),
+    //           child: Wrap(
+    //             children: [
+    //               ...movie.genreIds.map((genre) => Container(
+    //                     margin: const EdgeInsets.only(right: 10),
+    //                     child: Chip(
+    //                       label: Text(genre),
+    //                       shape: RoundedRectangleBorder(
+    //                           borderRadius: BorderRadius.circular(20)),
+    //                     ),
+    //                   )),
+    //             ],
+    //           )),
 
-          _ActorsByMovieView(movieId: movie.id.toString()),
+    //       _ActorsByMovieView(movieId: movie.id.toString()),
 
-          const SizedBox(
-            height: 100,
-          )
-        ],
-      ),
+    //       const SizedBox(
+    //         height: 100,
+    //       )
+    //     ],
+    //   ),
+    // );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        //* Titulo, OverView y Rating
+        _TitleAndOverview(movie: movie, size: size, textStyles: textTheme),
+
+        //* Generos de la película
+        _Genres(movie: movie),
+
+        //* Actores de la película
+        ActorsByMovie(movieId: movie.id.toString()),
+
+        //* Videos de la película (si tiene)
+        VideosFromMovie(movieId: movie.id),
+
+        //* Películas similares
+        SimilarMovies(movieId: movie.id),
+      ],
     );
   }
 }
@@ -298,6 +319,94 @@ class _CustomGradient extends StatelessWidget {
             colors: colors,
             stops: stops,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TitleAndOverview extends StatelessWidget {
+  const _TitleAndOverview({
+    required this.movie,
+    required this.size,
+    required this.textStyles,
+  });
+
+  final Movie movie;
+  final Size size;
+  final TextTheme textStyles;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Imagen
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              movie.posterPath!,
+              width: size.width * 0.3,
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          // Descripción
+          SizedBox(
+            width: (size.width - 40) * 0.7,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(movie.title, style: textStyles.titleLarge),
+                Text(movie.overview),
+                const SizedBox(height: 10),
+                MovieRating(voteAverage: movie.voteAverage),
+                Row(
+                  children: [
+                    const Text('Estreno:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 5),
+                    Text(HumanFormats.shortDate(movie.releaseDate))
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _Genres extends StatelessWidget {
+  const _Genres({
+    required this.movie,
+  });
+
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          children: [
+            ...movie.genreIds.map((gender) => Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: Chip(
+                    label: Text(gender),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
+                ))
+          ],
         ),
       ),
     );
