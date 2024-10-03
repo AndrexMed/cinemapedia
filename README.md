@@ -6,15 +6,7 @@
 
 # 🎥 CinemaPedia - Aplicación Móvil con Flutter
 
-**CinemaPedia** es una aplicación móvil desarrollada con **Flutter** que permite a los usuarios buscar información sobre películas, leer sinopsis, ver trailers y más. Utiliza la API de **The Movie Database (TMDb)** para obtener información actualizada sobre películas y actores.
-
-## 🖼️ Capturas de Pantalla
-
-| --------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------- |
-| ![Pantalla Principal](assets/screenshots/home.jpg)        |![Detalle Película](assets/screenshots/movie.jpg)         | ![Populares](assets/screenshots/populares.jpg)        |
-| ![Pantalla Principal](assets/screenshots/home2.jpg)       |![Detalle Película](assets/screenshots/movie_detail.jpg)  | ![Buscador](assets/screenshots/search.jpg)            |
-| ![Detalle Película](assets/screenshots/movie_video.jpg)   |![Buscador](assets/screenshots/search.jpg)                |
-
+**CinemaPedia** es una aplicación móvil desarrollada con **Flutter** que permite a los usuarios buscar información sobre películas, leer sinopsis, ver trailers y más. Utiliza la API de **The Movie Database (TMDb)** para obtener información actualizada sobre películas y actores.         |
 
 ## 🚀 Características
 
@@ -67,3 +59,14 @@ Correo: giovanniandrex@gmail.com
 📝 Contribuciones
 ¡Las contribuciones son bienvenidas! Si deseas mejorar el proyecto, siéntete libre de crear un pull request o abrir un issue.
 ```
+
+## 🖼️ Capturas de Pantalla   
+<div style="display: flex; justify-content: space-around;">
+    <img src="assets/screenshots/home.jpg" width="250">
+    <img src="assets/screenshots/home2.jpg" width="250">
+    <img src="assets/screenshots/movie-detail.jpg" width="250">
+     <img src="assets/screenshots/movie-video.jpg" width="250">
+    <img src="assets/screenshots/movie.jpg" width="250">
+    <img src="assets/screenshots/populares.jpg" width="250">
+    <img src="assets/screenshots/search.jpg" width="250">
+</div>
