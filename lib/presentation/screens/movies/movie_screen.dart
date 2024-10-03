@@ -58,6 +58,14 @@ final isFavoriteProvider =
   return localStorageRepository.isMovieFavorite(movieId);
 });
 
+//Forma vista en los comentarios en caso de presentar problema en movil.
+// final isFavoriteProvider = StateNotifierProvider.family
+//     .autoDispose<FavoriteNotifier, bool, int>((ref, movieId) {
+//   final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+
+//   return FavoriteNotifier(localStorageRepository, movieId);
+// });
+
 class _MovieSliverAppBar extends ConsumerWidget {
   final Movie movie;
   const _MovieSliverAppBar({required this.movie});
@@ -72,23 +80,25 @@ class _MovieSliverAppBar extends ConsumerWidget {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-              onPressed: () {
-                ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+              onPressed: () async {
+                //Forma vista en los comentarios en caso de presentar problema en movil. En caso de error modificar el icon de este widget.
+                // ref
+                //     .read(isFavoriteProvider(movie.id).notifier)
+                //     .toggleFavorite(movie);
+
+                await ref
+                    .read(favoriteMoviesProvider.notifier)
+                    .toggleFavorite(movie);
 
                 ref.invalidate(isFavoriteProvider(movie.id));
               },
               icon: isFavoriteFuture.when(
-                loading: () => const CircularProgressIndicator(
-                  strokeWidth: 2,
-                ),
+                loading: () => const CircularProgressIndicator(),
                 data: (isFavorite) => isFavorite
-                    ? const Icon(
-                        Icons.favorite_rounded,
-                        color: Colors.red,
-                      )
+                    ? const Icon(Icons.favorite_rounded, color: Colors.red)
                     : const Icon(Icons.favorite_border),
                 error: (error, stackTrace) => const Icon(Icons.error),
-              ))
+              )),
         ],
         // floating: false,
         // pinned: true,
