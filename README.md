@@ -61,12 +61,12 @@ Correo: giovanniandrex@gmail.com
 ```
 
 ## 🖼️ Capturas de Pantalla   
-<div style="display: flex; justify-content: space-around;">
-    <img src="assets/screenshots/home.jpg" width="250">
-    <img src="assets/screenshots/home2.jpg" width="250">
-    <img src="assets/screenshots/movie-detail.jpg" width="250">
-     <img src="assets/screenshots/movie-video.jpg" width="250">
-    <img src="assets/screenshots/movie.jpg" width="250">
-    <img src="assets/screenshots/populares.jpg" width="250">
-    <img src="assets/screenshots/search.jpg" width="250">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+    <img src="assets/screenshots/home.jpg" width="250" style="margin: 10px;">
+    <img src="assets/screenshots/home2.jpg" width="250" style="margin: 10px;">
+    <img src="assets/screenshots/movie-detail.jpg" width="250" style="margin: 10px;">
+    <img src="assets/screenshots/movie-video.jpg" width="250" style="margin: 10px;">
+    <img src="assets/screenshots/movie.jpg" width="250" style="margin: 10px;">
+    <img src="assets/screenshots/populares.jpg" width="250" style="margin: 10px;">
+    <img src="assets/screenshots/search.jpg" width="250" style="margin: 10px;">
 </div>
